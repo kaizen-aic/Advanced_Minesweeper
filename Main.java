@@ -1,4 +1,10 @@
+/* Button Grid Array Test
+ * By Christopher Castillo
+ * 2-17-23
+ * CSI 2999 Sophomore Project
+ */
 
+//Include general purpose and window libraries
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,6 +14,7 @@ public class Main extends JFrame {
 
     private JLabel statusbar;
 
+    //Print what buttons are marked on array at end of program
     public static void print2D(int mat[][])
     {
         // Loop through all rows
@@ -18,8 +25,9 @@ public class Main extends JFrame {
             System.out.println(Arrays.toString(row));
     }
 
-
+    //Create the user interface
     private static void initUI() {
+        //creating the window frame and buttons
         JFrame f = new JFrame("testing");
         JButton b1 = new JButton("1");
         JButton b2 = new JButton("2");
@@ -33,6 +41,7 @@ public class Main extends JFrame {
 
         int columns = 3;
         int rows = 3;
+        //create the empty array
         JFrame arrayF = new JFrame("Testing my array");
         int[][] grid = new int[3][3];
         int value = 0;
@@ -41,6 +50,7 @@ public class Main extends JFrame {
                 grid[i][j] = value;
             }
         }
+        //Add action listeners to each button to mark array spot with 1 when pressed.
 //        JLabel statusbar = new JLabel("arrays of rows and columns");
         b1.addActionListener(new ActionListener() {
             @Override
@@ -118,6 +128,7 @@ public class Main extends JFrame {
 
 
 //        f.add(statusbar, BorderLayout.SOUTH);
+        // Add all buttons and definitions to the frame window
             f.add(b1);
             f.add(b2);
             f.add(b3);
@@ -132,6 +143,7 @@ public class Main extends JFrame {
             f.setLocationRelativeTo(null);
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             f.setVisible(true);
+            //When window is closed, run print2D to display what buttons where marked
             f.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e)
