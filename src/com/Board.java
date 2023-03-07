@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 
     private final int NUM_IMAGES = 13;
+
+
     private final int CELL_SIZE = 60;
 
     private final int COVER_FOR_CELL = 10;
@@ -27,12 +30,14 @@ public class Board extends JPanel {
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    private final int N_MINES = 15;
-    private final int N_ROWS = 10;
-    private final int N_COLS = 10;
+    private int N_MINES = 15;
+    private int N_ROWS = 10;
+    private int N_COLS = 10;
+    private int DIF = 0;
+    private int TILECOLOR = 0;
 
-    private final int BOARD_WIDTH = N_COLS * CELL_SIZE;
-    private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE;
+    private int BOARD_WIDTH = N_COLS * CELL_SIZE;
+    private int BOARD_HEIGHT = N_ROWS * CELL_SIZE;
 
     private int[] field;
     private boolean inGame;
@@ -48,18 +53,67 @@ public class Board extends JPanel {
         initBoard();
     }
 
+    public void startScreen() {
+        Scanner scan = new Scanner(System.in);
+
+        // Difficulty Select: easy = 0, medium = 1, hard = 2, custom = 3
+        System.out.println("Select Difficulty: 0 for easy, 1 for medium, 2 for hard, 3 for custom.");
+
+
+
+        DIF = scan.nextInt();
+
+        if (DIF == 0) {
+            N_ROWS = 8;
+            N_COLS = 8;
+            N_MINES = 6;
+        } else if (DIF == 1) {
+            N_ROWS = 10;
+            N_COLS = 10;
+            N_MINES = 10;
+        } else if (DIF == 2) {
+            N_ROWS = 15;
+            N_COLS = 15;
+            N_MINES = 25;
+        } else {
+            System.out.println("Enter number of rows. Default 10.");
+            N_ROWS = scan.nextInt();
+            System.out.println("Enter number of columns. Default 10.");
+            N_COLS = scan.nextInt();
+            System.out.println("Enter number of mines. Default 10.");
+            N_MINES = scan.nextInt();
+        }
+
+        BOARD_WIDTH = N_COLS * CELL_SIZE;
+        BOARD_HEIGHT = N_ROWS * CELL_SIZE;
+
+        // Theme Select: light mode = 0, dark mode = 1
+        System.out.println("Select Theme: 0 for light mode, 1 for dark mode.");
+        TILECOLOR = scan.nextInt();
+        scan.close();
+    }
+
     private void initBoard() {
+
+        startScreen();
 
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
         img = new Image[NUM_IMAGES];
 
-        for (int i = 0; i < NUM_IMAGES; i++) {
+        if (TILECOLOR == 0) {
+            for (int i = 0; i < NUM_IMAGES; i++) {
 
-            String path = "src/resources/" + i + ".png";
-            img[i] = (new ImageIcon(path)).getImage();
+                String path = "src/resources/" + i + "l.png";
+                img[i] = (new ImageIcon(path)).getImage();
+            }
+        } else {
+            for (int i = 0; i < NUM_IMAGES; i++) {
+
+                String path = "src/resources/" + i + "d.png";
+                img[i] = (new ImageIcon(path)).getImage();
+            }
         }
-
         addMouseListener(new MinesAdapter());
         newGame();
     }
