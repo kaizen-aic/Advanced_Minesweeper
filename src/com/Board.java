@@ -7,6 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +49,9 @@ public class Board extends JPanel {
     private int allCells;
     private final JLabel statusbar;
 
+    private int interval = 180;
+    private Timer timer;
+    private int GAMEMODE = 180;
     public Board(JLabel statusbar) {
 
         this.statusbar = statusbar;
@@ -90,13 +95,34 @@ public class Board extends JPanel {
         // Theme Select: light mode = 0, dark mode = 1
         System.out.println("Select Theme: 0 for light mode, 1 for dark mode.");
         TILECOLOR = scan.nextInt();
+        System.out.println("Select Gamemode: 0 for classic, 1 for time attack.");
+        GAMEMODE = scan.nextInt();
+        if(GAMEMODE != 0)
+            System.out.println("Enter starting amount of time in seconds. Default 180 seconds (3 minutes).");
+            interval = scan.nextInt();
         scan.close();
+    }
+
+    public void stopwatch()
+    {
+        timer = new Timer();
+        int delay = 1000;
+        int period = 1000;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(interval == 1)
+                    timer.cancel();
+                else
+                    System.out.println(--interval);
+            }
+        }, delay, period);
     }
 
     private void initBoard() {
 
         startScreen();
-
+        stopwatch();
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
         img = new Image[NUM_IMAGES];
