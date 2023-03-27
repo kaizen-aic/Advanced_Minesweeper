@@ -49,9 +49,11 @@ public class Board extends JPanel {
     private int allCells;
     private final JLabel statusbar;
 
-    private int interval = 180;
+    private int seconds = 180, interval;
     private Timer timer;
-    private int GAMEMODE = 180;
+    private int MODE = 0;
+
+    private int win = 0;
     public Board(JLabel statusbar) {
 
         this.statusbar = statusbar;
@@ -95,11 +97,15 @@ public class Board extends JPanel {
         // Theme Select: light mode = 0, dark mode = 1
         System.out.println("Select Theme: 0 for light mode, 1 for dark mode.");
         TILECOLOR = scan.nextInt();
-        System.out.println("Select Gamemode: 0 for classic, 1 for time attack.");
-        GAMEMODE = scan.nextInt();
-        if(GAMEMODE != 0)
-            System.out.println("Enter starting amount of time in seconds. Default 180 seconds (3 minutes).");
-            interval = scan.nextInt();
+        System.out.println("Select Gamemode: 0 for classic, 1 for time attack, 2 for escalation, 3 for arms race.");
+        MODE = scan.nextInt();
+        if(MODE == 1) {
+            System.out.println("Enter starting amount of time in seconds. 0 for Default 180 seconds (3 minutes).");
+            seconds = scan.nextInt();
+            if (seconds == 0) {
+                seconds = 180;
+            }
+        }
         scan.close();
     }
 
@@ -111,8 +117,11 @@ public class Board extends JPanel {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(interval == 1)
+                if(interval == 0) {
+                    inGame = false;
+                    repaint();
                     timer.cancel();
+                }
                 else
                     System.out.println(--interval);
             }
@@ -122,7 +131,7 @@ public class Board extends JPanel {
     private void initBoard() {
 
         startScreen();
-        stopwatch();
+
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
         img = new Image[NUM_IMAGES];
@@ -147,7 +156,10 @@ public class Board extends JPanel {
     private void newGame() {
 
         int cell;
-
+        if(MODE == 1) {
+            interval = seconds;
+            stopwatch();
+        }
         Random random = new Random();
         inGame = true;
         minesLeft = N_MINES;
@@ -373,9 +385,15 @@ public class Board extends JPanel {
 
             inGame = false;
             statusbar.setText("Game won");
+            win = 1;
+            if(MODE == 1)
+                timer.cancel();
 
         } else if (!inGame) {
             statusbar.setText("Game lost");
+            win = 0;
+            if(MODE == 1)
+                timer.cancel();
         }
     }
 
@@ -393,7 +411,15 @@ public class Board extends JPanel {
             boolean doRepaint = false;
 
             if (!inGame) {
+                if (MODE == 2){
 
+                }if (MODE == 2){
+                    if(win == 1){
+                        if(N_MINES <= (N_COLS * N_ROWS)/4){
+                            N_MINES = N_MINES + 2;
+                        }
+                    }
+                }
                 newGame();
                 repaint();
             }
