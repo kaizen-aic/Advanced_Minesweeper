@@ -99,13 +99,14 @@ public class Board extends JPanel {
         TILECOLOR = scan.nextInt();
         System.out.println("Select Gamemode: 0 for classic, 1 for time attack, 2 for escalation, 3 for arms race.");
         MODE = scan.nextInt();
-        if(MODE == 1) {
+        if(MODE == 1 || MODE == 3) {
             System.out.println("Enter starting amount of time in seconds. 0 for Default 180 seconds (3 minutes).");
             seconds = scan.nextInt();
             if (seconds == 0) {
                 seconds = 180;
             }
         }
+
         scan.close();
     }
 
@@ -156,7 +157,7 @@ public class Board extends JPanel {
     private void newGame() {
 
         int cell;
-        if(MODE == 1) {
+        if(MODE == 1 || MODE == 3) {
             interval = seconds;
             stopwatch();
         }
@@ -386,13 +387,13 @@ public class Board extends JPanel {
             inGame = false;
             statusbar.setText("Game won");
             win = 1;
-            if(MODE == 1)
+            if(MODE == 1 || MODE == 3)
                 timer.cancel();
 
         } else if (!inGame) {
             statusbar.setText("Game lost");
             win = 0;
-            if(MODE == 1)
+            if(MODE == 1 || MODE == 3)
                 timer.cancel();
         }
     }
@@ -411,9 +412,8 @@ public class Board extends JPanel {
             boolean doRepaint = false;
 
             if (!inGame) {
-                if (MODE == 2){
 
-                }if (MODE == 2){
+                if (MODE == 2 || MODE == 3){
                     if(win == 1){
                         if(N_MINES <= (N_COLS * N_ROWS)/4){
                             N_MINES = N_MINES + 2;
