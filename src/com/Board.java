@@ -48,19 +48,21 @@ public class Board extends JPanel {
 
     private int allCells;
     private final JLabel statusbar;
+    private JLabel statusbar_timer;
 
     private int seconds = 180, interval;
     private Timer timer;
     private int MODE = 0;
 
     private int win = 0;
-    public Board(JLabel statusbar) {
+    public Board(JLabel statusbar, JLabel statusbar_timer, int difficulty, int gameMode, int colorMode, int timeSetting) {
 
         this.statusbar = statusbar;
-        initBoard();
+        this.statusbar_timer = statusbar_timer;
+        initBoard(difficulty, gameMode, colorMode, timeSetting);
     }
 
-    public void startScreen() {
+    public void startScreen(int difficulty, int gameMode, int colorMode, int timeSetting) {
         Scanner scan = new Scanner(System.in);
 
         // Difficulty Select: easy = 0, medium = 1, hard = 2, custom = 3
@@ -68,7 +70,7 @@ public class Board extends JPanel {
 
 
 
-        DIF = scan.nextInt();
+        DIF = difficulty;
 
         if (DIF == 0) {
             N_ROWS = 8;
@@ -96,12 +98,12 @@ public class Board extends JPanel {
 
         // Theme Select: light mode = 0, dark mode = 1
         System.out.println("Select Theme: 0 for light mode, 1 for dark mode.");
-        TILECOLOR = scan.nextInt();
+        TILECOLOR = colorMode;
         System.out.println("Select Gamemode: 0 for classic, 1 for time attack, 2 for escalation, 3 for arms race.");
-        MODE = scan.nextInt();
+        MODE = gameMode;
         if(MODE == 1 || MODE == 3) {
             System.out.println("Enter starting amount of time in seconds. 0 for Default 180 seconds (3 minutes).");
-            seconds = scan.nextInt();
+            seconds = timeSetting;
             if (seconds == 0) {
                 seconds = 180;
             }
@@ -123,15 +125,17 @@ public class Board extends JPanel {
                     repaint();
                     timer.cancel();
                 }
-                else
+                else {
                     System.out.println(--interval);
+                    statusbar_timer.setText(Integer.toString(interval));
+                }
             }
         }, delay, period);
     }
 
-    private void initBoard() {
+    private void initBoard(int difficulty, int gameMode, int colorMode, int timeSetting) {
 
-        startScreen();
+        startScreen(difficulty, gameMode, colorMode, timeSetting);
 
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
@@ -141,12 +145,14 @@ public class Board extends JPanel {
             for (int i = 0; i < NUM_IMAGES; i++) {
 
                 String path = "src/resources/" + i + "l.png";
+                path = "C:\\Users\\darkg\\Downloads\\src\\src\\resources\\" + i + "l.png";
                 img[i] = (new ImageIcon(path)).getImage();
             }
         } else {
             for (int i = 0; i < NUM_IMAGES; i++) {
 
                 String path = "src/resources/" + i + "d.png";
+                path = "C:\\Users\\darkg\\Downloads\\src\\src\\resources\\" + i + "d.png";
                 img[i] = (new ImageIcon(path)).getImage();
             }
         }
@@ -174,6 +180,7 @@ public class Board extends JPanel {
         }
 
         statusbar.setText(Integer.toString(minesLeft));
+        statusbar_timer.setText(" ");
 
         int i = 0;
 
