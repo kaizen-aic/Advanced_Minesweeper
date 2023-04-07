@@ -11,16 +11,16 @@ public class MainMenu implements ActionListener {
 
     JFrame frame = new JFrame();
 
-    Icon icon = new ImageIcon("C:\\Users\\darkg\\Downloads\\src\\src\\resources\\MMClassic.png");
+    Icon icon = new ImageIcon("src/resources/MMClassic.png");
     JButton Classic = new JButton(icon);
 
-    Icon icon2 = new ImageIcon("C:\\Users\\darkg\\Downloads\\src\\src\\resources\\MMTime.png");
+    Icon icon2 = new ImageIcon("src/resources/MMTime.png");
     JButton Time = new JButton(icon2);
 
-    Icon icon3 = new ImageIcon("C:\\Users\\darkg\\Downloads\\src\\src\\resources\\MMEscal.png");
+    Icon icon3 = new ImageIcon("src/resources/MMEscal.png");
     JButton Escal = new JButton(icon3);
 
-    Icon icon4 = new ImageIcon("C:\\Users\\darkg\\Downloads\\src\\src\\resources\\MMArms.png");
+    Icon icon4 = new ImageIcon("src/resources/MMArms.png");
     JButton Arms = new JButton(icon4);
 
     JButton Easy = new JButton("Easy Difficulty");
@@ -65,7 +65,7 @@ public class MainMenu implements ActionListener {
     public void buttonProperties(){
 
         try { //"src/resources/MMBack.png"
-            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:\\Users\\darkg\\Downloads\\src\\src\\resources\\MMBack.png")))));
+            frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/MMBack.png")))));
         } catch (IOException e) {
             e.printStackTrace();
         }

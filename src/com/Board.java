@@ -145,14 +145,14 @@ public class Board extends JPanel {
             for (int i = 0; i < NUM_IMAGES; i++) {
 
                 String path = "src/resources/" + i + "l.png";
-                path = "C:\\Users\\darkg\\Downloads\\src\\src\\resources\\" + i + "l.png";
+                path = "src/resources/" + i + "l.png";
                 img[i] = (new ImageIcon(path)).getImage();
             }
         } else {
             for (int i = 0; i < NUM_IMAGES; i++) {
 
                 String path = "src/resources/" + i + "d.png";
-                path = "C:\\Users\\darkg\\Downloads\\src\\src\\resources\\" + i + "d.png";
+                path = "src/resources/" + i + "d.png";
                 img[i] = (new ImageIcon(path)).getImage();
             }
         }
